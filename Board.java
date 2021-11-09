@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Board {
     ArrayList<Character> board = new ArrayList<Character>();
-    boolean result;
 
     public Board() {
         board.add('\n');
@@ -75,7 +74,30 @@ public class Board {
         return location;
     }
 
-    public void addLine(String coords) {
+    private int canAddBox(int index, char symbol) {
+        if (symbol == '-') {
+            try {
+                if (board.get(index + 11) == '|' && board.get(index + 13) == '|' && board.get(index + 24) == '-') {
+                    return index + 12;
+                } else if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
+                    return index - 12;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
+                    return index - 12;
+                }   
+            }
+        } else {
+            if (board.get(index + 2) == '|' && board.get(index - 11) == '-' && board.get(index + 13) == '-') {
+                return index + 1;
+            } else if (board.get(index - 2) == '|' && board.get(index - 13) == '-' && board.get(index + 11) == '-') {
+                return index - 1;
+            }
+        }
+        return -1;
+    }
+
+    public boolean addLine(String coords, int player) {
         int index = getIndex(coords);
         int num = Character.getNumericValue(coords.charAt(1));
         char symbol;
@@ -85,21 +107,16 @@ public class Board {
             symbol = '-';
         }
         board.set(index, symbol);
-        // if (box added) {
-           // result == true
-        //} else {
-           // result == false;
-        //}
-        return;
+        int result = canAddBox(index, symbol);
+        if (result == -1) {
+            return false;
+        } else {
+            addBox(index, player);
+            return true;
+        }
     }
 
-    public boolean boxAdded() {
-        boolean x = result;
-        result = false;
-        return x;
-    }
-
-    private void addBox(String coords) {
+    private void addBox(int index, int player) {
         char letter = coords.charAt(0);
         int num = Character.getNumericValue(coords.charAt(1));
     }
