@@ -74,28 +74,59 @@ public class Board {
         return location;
     }
 
-    private int canAddBox(int index, char symbol) {
-        if (symbol == '-') {
-            try {
-                if (board.get(index + 11) == '|' && board.get(index + 13) == '|' && board.get(index + 24) == '-') {
-                    return index + 12;
-                } else if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
-                    return index - 12;
-                }
-            } catch (IndexOutOfBoundsException e) {
-                if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
-                    return index - 12;
-                }   
-            }
-        } else {
-            if (board.get(index + 2) == '|' && board.get(index - 11) == '-' && board.get(index + 13) == '-') {
-                return index + 1;
-            } else if (board.get(index - 2) == '|' && board.get(index - 13) == '-' && board.get(index + 11) == '-') {
-                return index - 1;
+    private void addBox(int index, int player) {
+        if (board.get(index) == ' ') {
+            if (player == 1) {
+                board.set(index, 'X');
+            } else {
+                board.set(index, 'O');
             }
         }
-        return -1;
+        return;
     }
+
+    private boolean canAddBox(int index, char symbol, int player) {
+        boolean found = false;
+        for (int i = 0; i < 2; i++) {
+            if (symbol == '-') {
+                try {
+                    if (board.get(index + 11) == '|' && board.get(index + 13) == '|' && board.get(index + 24) == '-') {
+                        addBox(index + 12, player);
+                        index -= 12;
+                        found = true;
+                    } else if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
+                        addBox(index - 12, player);
+                        index += 12;
+                        found = true;
+                    } else {
+                        break;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    if (board.get(index - 11) == '|' && board.get(index - 13) == '|' && board.get(index - 24) == '-') {
+                        addBox(index - 12, player);
+                        index += 12;
+                        found = true;
+                    } else {
+                        break;
+                    }   
+                }
+            } else {
+                if (board.get(index + 2) == '|' && board.get(index - 11) == '-' && board.get(index + 13) == '-') {
+                    addBox(index + 1, player);
+                    index -= 2;
+                    found = true;
+                } else if (board.get(index - 2) == '|' && board.get(index - 13) == '-' && board.get(index + 11) == '-') {
+                    addBox(index - 1, player);
+                    index += 2;
+                    found = true;
+                } else {
+                    break;
+                }
+            }
+        }
+        return found;
+    }
+        
 
     public boolean addLine(String coords, int player) {
         int index = getIndex(coords);
@@ -107,17 +138,7 @@ public class Board {
             symbol = '-';
         }
         board.set(index, symbol);
-        int result = canAddBox(index, symbol);
-        if (result == -1) {
-            return false;
-        } else {
-            addBox(index, player);
-            return true;
-        }
-    }
-
-    private void addBox(int index, int player) {
-        char letter = coords.charAt(0);
-        int num = Character.getNumericValue(coords.charAt(1));
+        boolean result = canAddBox(index, symbol, player);
+        return result;
     }
 }
