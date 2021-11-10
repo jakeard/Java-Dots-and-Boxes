@@ -18,7 +18,7 @@ Some tools that I used to make this game are:
 * [W3 Schools](http://www.w3schools.com/java/default.asp)
 * [Stack Overflow](http://stackoverflow.com)
 * [Oracle Website](http://docs.oracle.com/javase/tutorial/java/)
-* [Java T Point](https://www.javatpoint.com/)
+* [Java T Point](http://www.javatpoint.com/java-tutorial)
 
 # Future Work
 
