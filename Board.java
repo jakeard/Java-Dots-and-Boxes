@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Board {
     ArrayList<Character> board = new ArrayList<Character>();
+    
 
     public Board() {
         board.add('\n');
@@ -16,7 +17,10 @@ public class Board {
             num++;
             for (int j = 0; j < 5; j++) {
                 board.add('\u2022');
-                board.add(' ');
+                // if ((i == 1 || i == 2) && j == 1) {
+                //     board.add('-');
+                // } else{
+                board.add(' '); //}
             }
             board.add('\n');
             if (num < 57) {
@@ -31,10 +35,6 @@ public class Board {
                 board.add('\n');
             }
         }
-    }
-
-    public ArrayList<Character> getBoard() {
-        return board;
     }
 
     private int getIndex(String coords) {
@@ -74,18 +74,19 @@ public class Board {
         return location;
     }
 
-    private void addBox(int index, int player) {
+    private void addBox(int index, Player player) {
         if (board.get(index) == ' ') {
-            if (player == 1) {
-                board.set(index, 'X');
-            } else {
-                board.set(index, 'O');
-            }
+            board.set(index, player.symbol);
+            addScore(player);
         }
         return;
     }
 
-    private boolean canAddBox(int index, char symbol, int player) {
+    private void addScore(Player player) {
+        player.setScore(player.getScore() + 1);
+    }
+
+    private boolean canAddBox(int index, char symbol, Player player) {
         boolean found = false;
         for (int i = 0; i < 2; i++) {
             if (symbol == '-') {
@@ -127,8 +128,7 @@ public class Board {
         return found;
     }
         
-
-    public boolean addLine(String coords, int player) {
+    public boolean addLine(String coords, Player player) {
         int index = getIndex(coords);
         int num = Character.getNumericValue(coords.charAt(1));
         char symbol;
@@ -140,5 +140,20 @@ public class Board {
         board.set(index, symbol);
         boolean result = canAddBox(index, symbol, player);
         return result;
+    }
+
+    public ArrayList<Character> getBoard() {
+        return board;
+    }
+
+    public boolean checkAvailable(String coords) {
+        int index = getIndex(coords);
+        if (board.get(index - 1) != '\u2022' && index % 2 == 0) {
+            return false;
+        } else if (board.get(index) == ' ') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
