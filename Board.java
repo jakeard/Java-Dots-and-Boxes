@@ -165,6 +165,5 @@ public class Board {
         } else {
             return false;
         }
-    }
-    
+    }  
 }
