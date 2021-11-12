@@ -157,6 +157,15 @@ public class Board {
 
     public boolean checkAvailable(String coords) {
         // check if user's coordinates are available to add a line to
+        int num = Character.getNumericValue(coords.charAt(1));
+        if (num < 1 || num > 10) {
+            return false;
+        }
+        char letter = coords.charAt(0);
+        letter = Character.toUpperCase(letter);
+        if (letter < 'A' || letter > 'I') {
+            return false;
+        }
         int index = getIndex(coords);
         if (board.get(index - 1) != '\u2022' && index % 2 == 0) {
             return false;
