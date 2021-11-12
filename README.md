@@ -4,7 +4,7 @@ This is my **Java Dots and Boxes** software. I decided to make this game to lear
 
 This is the Dots and Boxes game that you are (hopefully) familiar with (if not, then give it a try!). From researching and practicing with Java, I made this game to work with and make sure that I understand the language and its syntax at a basic level. 
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](http://youtu.be/SSUCm4Y35bw)
 
 # Development Environment
 
