@@ -1,4 +1,4 @@
-# Overview
+# Java Dots and Boxes
 
 This is my **Java Dots and Boxes** software. I decided to make this game to learn about Java, and to showcase my understanding of it from my research and practice. 
 
